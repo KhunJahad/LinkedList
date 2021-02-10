@@ -20,16 +20,33 @@ struct Node{
 	}
 };
 
-bool loop_detection(Node *head){
-	Node *slow=head;
-	Node *fast=head;
-	while(slow!=NULL && fast!=NULL && fast->next!=NULL){
-		slow=slow->next;
-		fast=fast->next->next;
-		if (slow==fast) return true;
+void printlist(Node *head){
+	Node *temp=head;
+	while(temp!=NULL){
+		cout<<temp->data<<" ";
+		temp=temp->next;
 	}
-	return false;
+	cout<<"\n";
 }
+
+bool isPalindrome(Node *head)
+{
+    //Your code here
+    stack <int> s;
+    Node *temp =head;
+    while(temp!=NULL){
+        s.push(temp->data);
+        temp=temp->next;
+    }
+    temp=head;
+    while (temp!=NULL){
+        if (temp->data!=s.top()) return false;
+        temp=temp->next;
+        s.pop();
+    }
+    return true;
+}
+
 
 int main(){
 	read_input();
@@ -39,13 +56,14 @@ int main(){
 	cin>>temp;
 	Node *head,*tail;
 	head=tail=new Node(temp);
-    // don't run this i havent used any loop
+    
 	for(int i=1;i<n;i++){
 		cin>>temp;
 		tail->next=new Node(temp);
 		tail=tail->next;
 	}
-	cout<<loop_detection(head);
+	printlist(head);
+	cout<<isPalindrome(head);
 	return 0;
 }
 

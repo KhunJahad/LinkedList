@@ -20,15 +20,27 @@ struct Node{
 	}
 };
 
-bool loop_detection(Node *head){
-	Node *slow=head;
-	Node *fast=head;
-	while(slow!=NULL && fast!=NULL && fast->next!=NULL){
-		slow=slow->next;
-		fast=fast->next->next;
-		if (slow==fast) return true;
+void printlist(Node *head){
+	Node *temp=head;
+	while(temp!=NULL){
+		cout<<temp->data<<" ";
+		temp=temp->next;
 	}
-	return false;
+}
+
+bool remove_duplicate(Node *head){
+	Node *temp=head;
+	while(temp!=NULL && temp->next!=NULL){
+		if (temp->data==temp->next->data){
+			Node *start=temp;
+			while(start!=NULL && temp->data==start->data){
+				start=start->next;
+			}
+			temp->next=start;
+		}
+		if (temp!=NULL) temp=temp->next;
+	}
+	printlist(head);
 }
 
 int main(){
@@ -45,8 +57,8 @@ int main(){
 		tail->next=new Node(temp);
 		tail=tail->next;
 	}
-	cout<<loop_detection(head);
+	printlist(head);
+	cout<<"\n";
+	remove_duplicate(head);
 	return 0;
 }
-
-

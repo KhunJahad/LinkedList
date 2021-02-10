@@ -20,15 +20,27 @@ struct Node{
 	}
 };
 
-bool loop_detection(Node *head){
+void printlist(Node *head){
+	Node *temp=head;
+	while(temp!=NULL){
+		cout<<temp->data<<" ";
+		temp=temp->next;
+	}
+	cout<<"\n";
+}
+
+Node *middle(Node *head){
 	Node *slow=head;
 	Node *fast=head;
-	while(slow!=NULL && fast!=NULL && fast->next!=NULL){
-		slow=slow->next;
-		fast=fast->next->next;
-		if (slow==fast) return true;
+
+	while(fast!=NULL){
+		fast=fast->next;
+		if (fast!=NULL){
+			fast=fast->next;
+			slow=slow->next;
+		}
 	}
-	return false;
+	return slow;
 }
 
 int main(){
@@ -39,13 +51,15 @@ int main(){
 	cin>>temp;
 	Node *head,*tail;
 	head=tail=new Node(temp);
-    // don't run this i havent used any loop
+    
 	for(int i=1;i<n;i++){
 		cin>>temp;
 		tail->next=new Node(temp);
 		tail=tail->next;
 	}
-	cout<<loop_detection(head);
+	printlist(head);
+	head=middle(head);
+	printlist(head);
 	return 0;
 }
 

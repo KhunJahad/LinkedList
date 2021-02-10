@@ -20,15 +20,31 @@ struct Node{
 	}
 };
 
-bool loop_detection(Node *head){
-	Node *slow=head;
-	Node *fast=head;
-	while(slow!=NULL && fast!=NULL && fast->next!=NULL){
-		slow=slow->next;
-		fast=fast->next->next;
-		if (slow==fast) return true;
+void printlist(Node *head){
+	Node *temp=head;
+	while(temp!=NULL){
+		cout<<temp->data<<" ";
+		temp=temp->next;
 	}
-	return false;
+}
+
+bool last_to_first(Node *head){
+	
+	Node *tail=head;
+	Node *secondlast=NULL;
+	Node *prevhead=head;
+	int flag=1;
+	while(tail->next!=NULL){
+		flag=0;
+		secondlast=tail;
+		tail=tail->next;
+	}
+	if (!flag){
+		secondlast->next=NULL;
+		head=tail;
+		head->next=prevhead;
+	}
+	printlist(head);
 }
 
 int main(){
@@ -39,13 +55,16 @@ int main(){
 	cin>>temp;
 	Node *head,*tail;
 	head=tail=new Node(temp);
-    // don't run this i havent used any loop
+    
 	for(int i=1;i<n;i++){
 		cin>>temp;
 		tail->next=new Node(temp);
 		tail=tail->next;
 	}
-	cout<<loop_detection(head);
+	printlist(head);
+	cout<<"\n";
+
+	last_to_first(head);
 	return 0;
 }
 
